@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum CoverType {
+  NONE
+  SINGLE
+  TRIPLE
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  articles  Article[]
+}
+
+model Channel {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  articles  Article[]
+}
+
+model Article {
+  id           Int           @id @default(autoincrement())
+  title        String
+  content      String        @db.Text
+  status       ArticleStatus @default(DRAFT)
+  coverType    CoverType     @default(NONE)
+  coverImages  Json?
+  readCount    Int           @default(0)
+  commentCount Int           @default(0)
+  likeCount    Int           @default(0)
+  publishedAt  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  authorId     Int
+  channelId    Int
+
+  author       User          @relation(fields: [authorId], references: [id])
+  channel      Channel       @relation(fields: [channelId], references: [id])
+  uploads      UploadAsset[]
+}
+
+model UploadAsset {
+  id        Int      @id @default(autoincrement())
+  url       String
+  filename  String
+  mimetype  String
+  size      Int
+  createdAt DateTime @default(now())
+
+  articleId Int?
+  article   Article? @relation(fields: [articleId], references: [id])
+}

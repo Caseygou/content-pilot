@@ -21,7 +21,7 @@ ContentPilot is a full-stack content management dashboard for article publishing
 - NestJS
 - TypeScript
 - Prisma
-- PostgreSQL or SQLite for local development
+- MySQL
 - JWT authentication
 - Swagger/OpenAPI
 
@@ -42,8 +42,7 @@ content-pilot/
 1. Initialize repository
 2. Initialize Vite React TypeScript frontend
 3. Initialize NestJS backend
-4. Add Prisma schema and seed data
+4. Add Prisma schema, MySQL database, and seed data
 5. Implement JWT login
 6. Add protected routes and admin layout
 7. Add channels, articles, uploads, and analytics modules
-
